@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"errors"
-	"os"
-	"log"
-	"strconv"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
 )
 
 func findSummandsInSliceTo(target []int, data []int, sum int) (int, int, int, error) {
