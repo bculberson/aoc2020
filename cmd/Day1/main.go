@@ -3,22 +3,22 @@ package main
 import (
 	"bufio"
 	"errors"
-	"os"
-	"log"
-	"strconv"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
 )
 
 func findSummandsInSliceTo(lines []int, startOffset int, sum int) (int, int, error) {
 	nextOffset := startOffset + 1
 	firstSummand := lines[startOffset]
-	for i := startOffset+1; i < len(lines)-1; i++ {
+	for i := startOffset + 1; i < len(lines)-1; i++ {
 		secondSummand := lines[i]
-		if firstSummand + secondSummand == sum {
+		if firstSummand+secondSummand == sum {
 			return firstSummand, secondSummand, nil
 		}
 	}
-	if nextOffset < len(lines) -1 {
+	if nextOffset < len(lines)-1 {
 		return findSummandsInSliceTo(lines, nextOffset+1, sum)
 	}
 	return 0, 0, errors.New("Not Found")
