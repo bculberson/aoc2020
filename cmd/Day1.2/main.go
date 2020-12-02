@@ -9,22 +9,20 @@ import (
 	"strconv"
 )
 
-func findSummandsInSliceTo(target []int, data []int, sum int) (int, int, int, error) {
-	for i := 0; i < len(data); i++ {
-		newTarget := make([]int, len(target)+1)
-		copy(newTarget, target)
-		newTarget[len(target)] = data[i]
-		newData := data[i+1:]
-		if len(newTarget) == 3 {
-			if (newTarget[0] + newTarget[1] + newTarget[2]) == sum {
-				return newTarget[0], newTarget[1], newTarget[2], nil
-			}
-		} else if len(newTarget) < 3 {
-			a, b, c, err := findSummandsInSliceTo(newTarget, newData, sum)
-			if err == nil {
-				return a, b, c, nil
+func findSummandsInSliceTo(lines []int, startOffset int, sum int) (int, int, int, error) {
+	nextOffset := startOffset + 1
+	firstSummand := lines[startOffset]
+	for i := startOffset + 1; i < len(lines); i++ {
+		secondSummand := lines[i]
+		for x := 0; x < len(lines); x++ {
+			thirdSummand := lines[x]
+			if firstSummand+secondSummand+thirdSummand == sum {
+				return firstSummand, secondSummand, thirdSummand, nil
 			}
 		}
+	}
+	if nextOffset < len(lines)-1 {
+		return findSummandsInSliceTo(lines, nextOffset, sum)
 	}
 	return 0, 0, 0, errors.New("Not Found")
 }
@@ -45,9 +43,9 @@ func main() {
 		log.Fatalf("Error in Scanner: %s", err)
 	}
 
-	a, b, c, err := findSummandsInSliceTo([]int{}, lines, 2020)
+	a, b, c, err := findSummandsInSliceTo(lines, 0, 2020)
 	if err != nil {
 		log.Fatal("Summands not found!")
 	}
-	fmt.Printf("%d * %d * %d = %d\n", a, b, c, a*b*c)
+	fmt.Printf("FOUND %d * %d * %d = %d\n", a, b, c, a*b*c)
 }
